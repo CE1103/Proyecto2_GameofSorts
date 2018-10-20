@@ -16,8 +16,16 @@ en Computadores_. GoS, de ahora en adelante, es un juego side scroller. El jugad
 * **Angelo Ortiz** - *Desarrollador* - [angelortizv](https://github.com/angelortizv)
 * **Iván Solís** - *Desarrollador* - [isolis2000](https://github.com/isolis2000)
 * **Jonathan Esquivel** - *Desarrollador* - [jesquivel48](https://github.com/jesquivel48)
+* **Oscar Araya** - *Desarrollador* - [OscarAraya18](https://github.com/OscarAraya18)
+* **Agustín Venegas** - *Desarrollador* - [JoseAgus00](https://github.com/JoseAgus00)
+
 
 ## Licencia.
 
 Este proyecto está bajo la Licencia ( MIT License) - mira el archivo 
 [LICENSE](https://github.com/DotsCE1103/Proyecto2_GameofSorts/blob/master/LICENSE) para detalles.
+
+<p align="center">
+<img src="https://res.cloudinary.com/dek4evg4t/image/upload/v1540058798/gos_logo.png" width="500"/>
+</p>
+
