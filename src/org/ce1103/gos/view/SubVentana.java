@@ -1,4 +1,4 @@
-package agregados;
+package org.ce1103.gos.view;
 
 
 import java.awt.Dimension;
@@ -16,8 +16,8 @@ import javafx.util.Duration;
 
 public class SubVentana extends SubScene{
 
-	private final static String rutaFuente = "src/agregados/recursosGraficos/fuente.ttf";
-	private final static String rutaImagenFondo = "agregados/recursosGraficos/Fondo1.png";
+	private final static String rutaFuente = "org/ce1103/gos/res/fuente.ttf";
+	private final static String rutaImagenFondo = "org/ce1103/gos/res/Fondo1.png";
 	private static final Dimension miDisplay = Toolkit.getDefaultToolkit().getScreenSize();
 	private static final int ancho = (int)miDisplay.getWidth();
 	private static final int alto = (int)miDisplay.getHeight();

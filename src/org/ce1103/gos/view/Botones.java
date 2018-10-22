@@ -1,24 +1,21 @@
-package agregados;
+package org.ce1103.gos.view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import javax.swing.JOptionPane;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 
 
 public class Botones extends Button{
 	
-	private static final String rutaFuente = "src/agregados/recursosGraficos/fuente.ttf";
-	private static final String displayBotonPresionado = "-fx-background-color: transparent; -fx-background-image: url('/agregados/recursosGraficos/blue_button01.png');";
-	private static final String displayBotonSinPresionar = "-fx-background-color: transparent; -fx-background-image: url('/agregados/recursosGraficos/blue_button00.png');";
+	private static final String rutaFuente = "res/fuente.ttf";
+	private static final String displayBotonPresionado = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/res/blue_button01.png');";
+	private static final String displayBotonSinPresionar = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/res/blue_button00.png');";
 	private String accion="";
 	
 	public Botones(String texto, double posicionX, double posicionY, double ancho, double alto, String accion) {
@@ -32,8 +29,6 @@ public class Botones extends Button{
 		this.setAccion(accion);
 		iniciarListenersBoton();
 	}
-	
-	
 	
 	
 	private void setAccion(String accion) {

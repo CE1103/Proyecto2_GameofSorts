@@ -1,15 +1,11 @@
-package view;
-
+package org.ce1103.gos.view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import agregados.Botones;
-import agregados.SubVentana;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +19,6 @@ import javafx.stage.Stage;
 
 public class ViewManager {
 	
-	
 	private static final Dimension miDisplay = Toolkit.getDefaultToolkit().getScreenSize();
 	private static final int ancho = (int)miDisplay.getWidth();
 	private static final int alto = (int)miDisplay.getHeight();
@@ -34,10 +29,10 @@ public class ViewManager {
 	private Stage mainStage;
 
 	
-	private SubVentana subVentanaCreditos;
-	private SubVentana subVentanaAyuda;
-	private SubVentana subVentanaJugar;
-	private SubVentana subVentanaSalir;
+	private SubVentana credit_window;
+	private SubVentana help_window;
+	private SubVentana play_window;
+	private SubVentana exit_window;
 	
 	private String subVentanaActiva;
 	
@@ -58,38 +53,23 @@ public class ViewManager {
 
 	}
 	
-	
-	
-	
-
-	
-	
-	
 	private void crearSubVentana() {
-		subVentanaCreditos = new SubVentana();
-		mainPane.getChildren().add(subVentanaCreditos);
+		credit_window = new SubVentana();
+		mainPane.getChildren().add(credit_window);
 		
-		subVentanaAyuda = new SubVentana();
-		mainPane.getChildren().add(subVentanaAyuda);
+		help_window = new SubVentana();
+		mainPane.getChildren().add(help_window);
 		
-		subVentanaJugar = new SubVentana();
-		mainPane.getChildren().add(subVentanaJugar);
+		play_window = new SubVentana();
+		mainPane.getChildren().add(play_window);
 		
-		subVentanaSalir = new SubVentana();
-		mainPane.getChildren().add(subVentanaSalir);
+		exit_window = new SubVentana();
+		mainPane.getChildren().add(exit_window);
 	}
-	
-	
-	
 	
 	public Stage getMainStage() {
 		return mainStage;
 	}
-	
-	
-	
-	
-	
 	
 	private void crearBotonJugar() {
 		Botones botonJugar = new Botones("Jugar",80,540, 190,61,"Jugar");
@@ -99,13 +79,12 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				subVentanaJugar.moverSubVentana();
+				play_window.moverSubVentana();
 				mainPane.getChildren().remove(logo);
 			}
 				
 		});
 		
-	
 	}
 	private void crearBotonAyuda() {
 		Botones botonAyuda = new Botones("Ayuda",80,620, 190,61,"Ayuda");
@@ -116,7 +95,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				subVentanaAyuda.moverSubVentana();
+				help_window.moverSubVentana();
 				mainPane.getChildren().remove(logo);
 			}
 				
@@ -133,7 +112,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				subVentanaCreditos.moverSubVentana();
+				credit_window.moverSubVentana();
 				mainPane.getChildren().remove(logo);
 			}
 				
@@ -153,7 +132,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				subVentanaSalir.moverSubVentana();
+				exit_window.moverSubVentana();
 				mainPane.getChildren().remove(logo);
 			}
 				
@@ -165,13 +144,13 @@ public class ViewManager {
 	
 	
 	private void crearFondo() {
-		Image imagenFondo = new Image("view/recursosGraficos/fondo.png",ancho,alto,false,true);
+		Image imagenFondo = new Image("org/ce1103/gos/res/fondo.png",ancho,alto,false,true);
 		BackgroundImage fondo = new BackgroundImage(imagenFondo,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,null);
 		mainPane.setBackground(new Background(fondo));
 	}
 	
 	private void crearLogo() {
-		logo = new ImageView("view/recursosGraficos/logo.png");
+		logo = new ImageView("org/ce1103/gos/res/logo.png");
 		logo.setLayoutX(-15);
 		logo.setLayoutY(-15);
 		logo.setFitHeight(229);
@@ -193,8 +172,6 @@ public class ViewManager {
 		});
 	
 		mainPane.getChildren().add(logo);
-
-		
 		
 	}
 	

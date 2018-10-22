@@ -1,13 +1,9 @@
-package application;
+package org.ce1103.gos.gui;
 	
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import org.ce1103.gos.view.ViewManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.ViewManager;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 
 
