@@ -8,6 +8,7 @@ import org.ce1103.gos.agregados.Botones;
 import org.ce1103.gos.agregados.LabelSubVentanas;
 import org.ce1103.gos.agregados.SubVentana;
 
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -138,6 +139,9 @@ public class ViewManager {
 		
 	
 	}
+	
+
+	
 	private void crearBotonAyuda() {
 		Botones botonAyuda = new Botones("Ayuda",80,620, 190,61,"Ayuda");
 		mainPane.getChildren().add(botonAyuda);

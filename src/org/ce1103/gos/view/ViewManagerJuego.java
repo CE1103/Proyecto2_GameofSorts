@@ -191,10 +191,19 @@ public class ViewManagerJuego {
 			if(posicionEnemigo.intersects(posicionDragon)){
 				System.out.println("tocado");
 			}
+			if(balaExiste) {
+				Rectangle2D posicionBala = new Rectangle2D(bala.getLayoutX(),bala.getLayoutY(),30,30);
+				if (posicionEnemigo.intersects(posicionBala)) {
+					System.out.println("Colision Bala!");
+					balaExiste = false;
+					gamePane.getChildren().remove(bala);
+					enemigos[i].setLayoutX(Integer.MAX_VALUE);
+//					gamePane.getChildren().remove(enemigos[i]);
+				}
+			}
 		}
 	}
-	
-	
+
 	
 	
 	private void crearDragon() {
