@@ -1,11 +1,14 @@
-package view;
+package org.ce1103.gos.view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -42,12 +45,24 @@ public class ViewManagerJuego {
 	
 	private GridPane gridPane1;
 	private GridPane gridPane2;
-	private final static String rutaFondo = "view/recursosGraficos/gameBackground.png";
+	private final static String rutaFondo = "org/ce1103/gos/view/recursosGraficos/gameBackground.png";
+	
+	
+	
+	private final static String rutaEnemigos = "org/ce1103/gos/view/recursosGraficos/bat.png";
+	
+	private ImageView[] enemigos;
+	private ImageView[] enemigosPasaron;
+	
+	Random generarPosicionAleatoria;
+	
+	
 	
 	
 	public ViewManagerJuego() {
 		this.iniciarGameStage();
 		this.crearKeyListeners();
+		this.generarPosicionAleatoria = new Random();
 	}
 
 
@@ -110,14 +125,68 @@ public class ViewManagerJuego {
 		this.menuStage = menuStage;
 		this.menuStage.hide();
 		this.crearDragon();
+		crearEnemigos();
 		crearGameLoop();
 		gameStage.show();
 	}
 	
 	
+	private void crearEnemigos() {
+		enemigos = new ImageView[100];//
+		for(int i=0; i<enemigos.length; i++) {
+			enemigos[i] = new ImageView(rutaEnemigos);
+			enemigos[i].setFitHeight(25);
+			enemigos[i].setFitWidth(25);
+			darPosicionEnemigos(enemigos[i]);
+			gamePane.getChildren().add(enemigos[i]);
+		}
+	}
+	
+	
+	private void darPosicionEnemigos(ImageView image) {
+		int ejeX=(int)(generarPosicionAleatoria.nextInt(ancho-20));
+		while (ejeX<910) {
+			ejeX=(int)(generarPosicionAleatoria.nextInt(ancho-20));
+		}
+		int ejeY=(int)(generarPosicionAleatoria.nextInt(705));
+		image.setLayoutX(ejeX);
+		image.setLayoutY(ejeY);
+	}
+	
+	
+	private void moverEnemigos() {
+		for(int i = 0; i<enemigos.length; i++) {
+			enemigos[i].setLayoutX(enemigos[i].getLayoutX()-1);
+		}
+	}
+	
+	
+	private void enemigosPasaron() {
+		for(int i=0; i<enemigos.length; i++) {
+			if(enemigos[i].getLayoutX()==0) {
+				System.out.println("vida menos");
+
+				
+			}
+		}
+	}
+	
+	
+	private void enemigosTocaronJugador() {
+		for(int i=0; i<enemigos.length; i++) {
+			Rectangle2D posicionEnemigo = new Rectangle2D(enemigos[i].getLayoutX(),enemigos[i].getLayoutY(),30,30);
+			Rectangle2D posicionDragon = new Rectangle2D(dragon.getLayoutX(),dragon.getLayoutY(),30,30);
+			if(posicionEnemigo.intersects(posicionDragon)){
+				System.out.println("tocado");
+			}
+		}
+	}
+	
+	
+	
 	
 	private void crearDragon() {
-		dragon = new ImageView("view/recursosGraficos/dragon (1).png");
+		dragon = new ImageView("org/ce1103/gos/view/recursosGraficos/dragon (1).png");
 		dragon.setLayoutX(100);
 		dragon.setLayoutY(10);
 		dragon.setFitHeight(40);
@@ -132,7 +201,10 @@ public class ViewManagerJuego {
 		gameTimer = new AnimationTimer() {
 			
 			public void handle(long now) {
+				moverEnemigos();
+				enemigosPasaron();
 				moverDragon();
+				enemigosTocaronJugador();
 			}
 	
 		};

@@ -1,4 +1,4 @@
-package agregados;
+package org.ce1103.gos.agregados;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +17,8 @@ import javafx.scene.layout.BackgroundPosition;
 
 public class LabelSubVentanas extends Label{
 	
-	public final static String rutaFuente = "src/agregados/recursosGraficos/fuente.ttf";
-	public final static String rutaImagenFondo = "view/recursosGraficos/textbox for credits.png";
+	public final static String rutaFuente = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
+	public final static String rutaImagenFondo = "org/ce1103/gos/view/recursosGraficos/textbox for credits.png";
 	
 	public LabelSubVentanas(String texto) {
 		this.setPrefWidth(600);

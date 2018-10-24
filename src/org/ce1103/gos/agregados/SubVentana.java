@@ -1,4 +1,4 @@
-package org.ce1103.gos.view;
+package org.ce1103.gos.agregados;
 
 
 import java.awt.Dimension;
@@ -16,8 +16,8 @@ import javafx.util.Duration;
 
 public class SubVentana extends SubScene{
 
-	private final static String rutaFuente = "org/ce1103/gos/res/fuente.ttf";
-	private final static String rutaImagenFondo = "org/ce1103/gos/res/Fondo1.png";
+	private final static String rutaFuente = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
+	private final static String rutaImagenFondo = "org/ce1103/gos/agregados/recursosGraficos/Fondo1.png";
 	private static final Dimension miDisplay = Toolkit.getDefaultToolkit().getScreenSize();
 	private static final int ancho = (int)miDisplay.getWidth();
 	private static final int alto = (int)miDisplay.getHeight();
@@ -29,11 +29,13 @@ public class SubVentana extends SubScene{
 		super(new AnchorPane(), ancho*0.55, alto*0.95);
 		this.prefWidth(ancho*0.55);
 		this.prefHeight(alto*0.95);
-		System.out.println("ancho" + ancho);
-		System.out.println("alto" + alto);
+
 		
 		BackgroundImage fondo = new BackgroundImage(new Image(rutaImagenFondo,ancho*0.55,alto*0.95,false,true)
 				,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);
+		
+	
+		
 		
 		
 		AnchorPane estaVentana = (AnchorPane) this.getRoot();
@@ -45,6 +47,13 @@ public class SubVentana extends SubScene{
 		this.setOculto(true);
 		
 	}
+
+	
+	public AnchorPane getPane() {
+		return (AnchorPane) this.getRoot();
+	}
+	
+	
 	
 	
 	public boolean getOculto() {
@@ -54,7 +63,6 @@ public class SubVentana extends SubScene{
 	public void setOculto(boolean estado) {
 		this.oculto=estado;
 	}
-	
 	
 	
 	public void moverSubVentana() {

@@ -1,7 +1,12 @@
 package org.ce1103.gos.view;
 
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
+
+import org.ce1103.gos.agregados.Botones;
+import org.ce1103.gos.agregados.LabelSubVentanas;
+import org.ce1103.gos.agregados.SubVentana;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +24,7 @@ import javafx.stage.Stage;
 
 public class ViewManager {
 	
+	
 	private static final Dimension miDisplay = Toolkit.getDefaultToolkit().getScreenSize();
 	private static final int ancho = (int)miDisplay.getWidth();
 	private static final int alto = (int)miDisplay.getHeight();
@@ -29,12 +35,12 @@ public class ViewManager {
 	private Stage mainStage;
 
 	
-	private SubVentana credit_window;
-	private SubVentana help_window;
-	private SubVentana play_window;
-	private SubVentana exit_window;
+	private SubVentana subVentanaCreditos;
+	private SubVentana subVentanaAyuda;
+	private SubVentana subVentanaJugar;
+	private SubVentana subVentanaSalir;
 	
-	private String subVentanaActiva;
+	private SubVentana subVentanaActiva;
 	
 	
 	public ViewManager() {
@@ -53,23 +59,68 @@ public class ViewManager {
 
 	}
 	
-	private void crearSubVentana() {
-		credit_window = new SubVentana();
-		mainPane.getChildren().add(credit_window);
-		
-		help_window = new SubVentana();
-		mainPane.getChildren().add(help_window);
-		
-		play_window = new SubVentana();
-		mainPane.getChildren().add(play_window);
-		
-		exit_window = new SubVentana();
-		mainPane.getChildren().add(exit_window);
+	
+	private void mostrarSubVentana(SubVentana subVentana) {
+		if(subVentanaActiva!=null) {
+			subVentanaActiva.moverSubVentana();
+		}
+		subVentana.moverSubVentana();
+		subVentanaActiva = subVentana;
 	}
+	
+
+	
+	
+	
+	private void crearSubVentana() {
+		subVentanaCreditos = new SubVentana();
+		mainPane.getChildren().add(subVentanaCreditos);
+		LabelSubVentanas credito1 = new LabelSubVentanas("Angelo Ortiz Vega - 2017239551");
+		credito1.setLayoutX(75);
+		credito1.setLayoutY(60);
+		subVentanaCreditos.getPane().getChildren().add(credito1);
+		
+		LabelSubVentanas credito2 = new LabelSubVentanas("Iván Solís Ávila - 2018167983");
+		credito2.setLayoutX(75);
+		credito2.setLayoutY(180);
+		subVentanaCreditos.getPane().getChildren().add(credito2);
+		
+		LabelSubVentanas credito3 = new LabelSubVentanas("Jonathan Esquivel Sánchez - 2018167983");
+		credito3.setLayoutX(75);
+		credito3.setLayoutY(300);
+		subVentanaCreditos.getPane().getChildren().add(credito3);
+		
+		LabelSubVentanas credito4 = new LabelSubVentanas("Agustín Venegas Vega - 2018250621");
+		credito4.setLayoutX(75);
+		credito4.setLayoutY(420);
+		subVentanaCreditos.getPane().getChildren().add(credito4);
+		
+		LabelSubVentanas credito5 = new LabelSubVentanas("Oscar Araya Garbanzo - 2018002998");
+		credito5.setLayoutX(75);
+		credito5.setLayoutY(540);
+		subVentanaCreditos.getPane().getChildren().add(credito5);
+		
+		
+		subVentanaAyuda = new SubVentana();
+		mainPane.getChildren().add(subVentanaAyuda);
+		
+		subVentanaJugar = new SubVentana();
+		mainPane.getChildren().add(subVentanaJugar);
+		
+		subVentanaSalir = new SubVentana();
+		mainPane.getChildren().add(subVentanaSalir);
+	}
+	
+	
+	
 	
 	public Stage getMainStage() {
 		return mainStage;
 	}
+	
+	
+	
+	
 	
 	private void crearBotonJugar() {
 		Botones botonJugar = new Botones("Jugar",80,540, 190,61,"Jugar");
@@ -79,12 +130,13 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				play_window.moverSubVentana();
-				mainPane.getChildren().remove(logo);
+				ViewManagerJuego managerJuego = new ViewManagerJuego();
+				managerJuego.crearNuevoJuego(mainStage);
 			}
 				
 		});
 		
+	
 	}
 	private void crearBotonAyuda() {
 		Botones botonAyuda = new Botones("Ayuda",80,620, 190,61,"Ayuda");
@@ -95,8 +147,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				help_window.moverSubVentana();
-				mainPane.getChildren().remove(logo);
+				mostrarSubVentana(subVentanaAyuda);
 			}
 				
 		});
@@ -112,16 +163,13 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				credit_window.moverSubVentana();
-				mainPane.getChildren().remove(logo);
+				mostrarSubVentana(subVentanaCreditos);
 			}
 				
 		});
 	}
 		
-		
-		
-		
+
 		
 	private void crearBotonSalir() {
 		Botones botonSalir = new Botones("Salir",325,620, 190,61,"Salir");
@@ -132,8 +180,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent evento) {
-				exit_window.moverSubVentana();
-				mainPane.getChildren().remove(logo);
+				mainStage.close();
 			}
 				
 		});
@@ -144,20 +191,21 @@ public class ViewManager {
 	
 	
 	private void crearFondo() {
-		Image imagenFondo = new Image("org/ce1103/gos/res/fondo.png",ancho,alto,false,true);
+		Image imagenFondo = new Image("org/ce1103/gos/view/recursosGraficos/fondo.png",ancho,alto,false,true);
 		BackgroundImage fondo = new BackgroundImage(imagenFondo,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.DEFAULT,null);
 		mainPane.setBackground(new Background(fondo));
 	}
 	
 	private void crearLogo() {
-		logo = new ImageView("org/ce1103/gos/res/logo.png");
+		logo = new ImageView("org/ce1103/gos/view/recursosGraficos/logo.png");
 		logo.setLayoutX(-15);
 		logo.setLayoutY(-15);
 		logo.setFitHeight(229);
 		logo.setFitWidth(700);
 		
 		logo.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
+		
+		@Override
 		public void handle(MouseEvent event) {
 			logo.setEffect(new DropShadow());
 		}
@@ -172,6 +220,8 @@ public class ViewManager {
 		});
 	
 		mainPane.getChildren().add(logo);
+
+		
 		
 	}
 	

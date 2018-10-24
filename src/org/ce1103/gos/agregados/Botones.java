@@ -1,4 +1,4 @@
-package agregados;
+package org.ce1103.gos.agregados;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,9 +14,9 @@ import javafx.scene.text.Font;
 
 public class Botones extends Button{
 	
-	private static final String rutaFuente = "src/agregados/recursosGraficos/fuente.ttf";
-	private static final String displayBotonPresionado = "-fx-background-color: transparent; -fx-background-image: url('/agregados/recursosGraficos/blue_button01.png');";
-	private static final String displayBotonSinPresionar = "-fx-background-color: transparent; -fx-background-image: url('/agregados/recursosGraficos/blue_button00.png');";
+	private static final String rutaFuente = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
+	private static final String displayBotonPresionado = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/agregados/recursosGraficos/blue_button01.png');";
+	private static final String displayBotonSinPresionar = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/agregados/recursosGraficos/blue_button00.png');";
 
 	
 	public Botones(String texto, double posicionX, double posicionY, double ancho, double alto, String accion) {

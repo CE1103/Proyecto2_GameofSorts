@@ -1,12 +1,11 @@
-package application;
+package org.ce1103.gos.application;
 	
 
 
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.ViewManager;
-
+import org.ce1103.gos.view.ViewManager;
 
 
 public class Main extends Application {
