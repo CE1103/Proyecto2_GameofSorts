@@ -1,4 +1,4 @@
-package org.ce1103.gos.agregados;
+package org.ce1103.gos.principalwin;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,33 +15,30 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 
 
-public class LabelSubVentanas extends Label{
+public class LabelNestedWindow extends Label{
 	
-	public final static String rutaFuente = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
-	public final static String rutaImagenFondo = "org/ce1103/gos/view/recursosGraficos/textbox for credits.png";
+	public final static String rootFont = "org/ce1103/gos/principalwin/res/fuente.ttf";
+	public final static String rootBackgroundImage = "org/ce1103/gos/view/graphicResources/textboxCredits.png";
 	
-	public LabelSubVentanas(String texto) {
+	public LabelNestedWindow(String text) {
 		this.setPrefWidth(600);
 		this.setPrefHeight(100);
 
-		this.setText(texto);
+		this.setText(text);
 		this.setWrapText(true);
-		this.setFuente();
+		this.setFont();
 		this.setAlignment(Pos.CENTER);
 		
-		
-		BackgroundImage imagenFondo = new BackgroundImage(new Image(rutaImagenFondo, 700,150,false,true), BackgroundRepeat.NO_REPEAT,
+		BackgroundImage backgroundImage = new BackgroundImage(new Image(rootBackgroundImage, 700,150,false,true), BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,null);
 		
-		
-		
-		this.setBackground(new Background(imagenFondo));
+		this.setBackground(new Background(backgroundImage));
 	}
 	
 	
-	private void setFuente() {
+	private void setFont() {
 		try {
-			this.setFont(Font.loadFont(new FileInputStream(new File(rutaFuente)), 26));
+			this.setFont(Font.loadFont(new FileInputStream(new File(rootFont)), 26));
 		} catch (FileNotFoundException e) {
 			this.setFont(Font.font("Verdana",23));
 		}

@@ -1,4 +1,4 @@
-package org.ce1103.gos.agregados;
+package org.ce1103.gos.principalwin;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,34 +12,27 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
 
-public class Botones extends Button{
+public class Buttons extends Button{
 	
-	private static final String rutaFuente = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
-	private static final String displayBotonPresionado = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/agregados/recursosGraficos/blue_button01.png');";
-	private static final String displayBotonSinPresionar = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/agregados/recursosGraficos/blue_button00.png');";
+	private static final String rootFont = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
+	private static final String pressedButtonDisplay = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/principalwin/res/blue_button01.png');";
+	private static final String noPressedButtonDisplay = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/principalwin/ress/blue_button00.png');";
 
-	
-	public Botones(String texto, double posicionX, double posicionY, double ancho, double alto, String accion) {
-		this.setText(texto);
-		this.setFuenteBoton();
-		this.setPrefWidth(ancho);
-		this.setPrefHeight(alto);
-		this.setLayoutX(posicionX);
-		this.setLayoutY(posicionY);
-		this.setStyle(displayBotonSinPresionar);
-		iniciarListenersBoton();
+	public Buttons(String text, double posX, double posY, double width, double height, String action) {
+		this.setText(text);
+		this.setButtonFont();
+		this.setPrefWidth(width);
+		this.setPrefHeight(height);
+		this.setLayoutX(posX);
+		this.setLayoutY(posY);
+		this.setStyle(noPressedButtonDisplay);
+		startListenersButtons();
 	}
 	
 	
-
-	
-	
-	
-	
-	
-	private void setFuenteBoton() {
+	private void setButtonFont() {
 		try {
-			this.setFont(Font.loadFont(new FileInputStream(rutaFuente), 23));
+			this.setFont(Font.loadFont(new FileInputStream(rootFont), 23));
 			
 		}catch(FileNotFoundException e) {
 			this.setFont(Font.font("Verdana",23));
@@ -47,8 +40,8 @@ public class Botones extends Button{
 	}
 
 	
-	private void setBotonPresionadoDisplay() {
-		this.setStyle(displayBotonPresionado);
+	private void setPressedButtonDisplay() {
+		this.setStyle(pressedButtonDisplay);
 		this.setPrefHeight(55);
 		this.setLayoutY(this.getLayoutY()+10);
 
@@ -56,19 +49,19 @@ public class Botones extends Button{
 
 	
 	private void setBotonSinPresionarDisplay() {
-		this.setStyle(displayBotonSinPresionar);
+		this.setStyle(noPressedButtonDisplay);
 		this.setPrefHeight(60);
 		this.setLayoutY(this.getLayoutY()-10);
 
 	}
 
 	
-	private void iniciarListenersBoton() {
+	private void startListenersButtons() {
 		setOnMousePressed(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent evento) {
 				if(evento.getButton().equals(MouseButton.PRIMARY)) {
-					setBotonPresionadoDisplay();
+					setPressedButtonDisplay();
 				}
 			}
 		});
