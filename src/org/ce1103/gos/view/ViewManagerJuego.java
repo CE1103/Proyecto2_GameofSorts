@@ -32,6 +32,7 @@ public class ViewManagerJuego {
 	
 	private Stage menuStage;
 	private ImageView dragon;
+	private ImageView bala;
 	
 	
 	
@@ -39,6 +40,8 @@ public class ViewManagerJuego {
 	private boolean arribaPresionado;
 	private boolean izquierdaPresionado;
 	private boolean derechaPresionado;
+	private boolean disparoPresionado;
+	private boolean balaExiste = false;
 	private AnimationTimer gameTimer;
 	
 	
@@ -46,6 +49,7 @@ public class ViewManagerJuego {
 	private GridPane gridPane1;
 	private GridPane gridPane2;
 	private final static String rutaFondo = "org/ce1103/gos/view/recursosGraficos/gameBackground.png";
+	private final static String rutaBala = "org/ce1103/gos/view/recursosGraficos/balaDragon.png";
 	
 	
 	
@@ -80,6 +84,12 @@ public class ViewManagerJuego {
 					arribaPresionado=true;
 				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
 					abajoPresionado=true;
+				}else if (event.getCode() == KeyCode.SPACE && !balaExiste) {
+					bala = new ImageView(rutaBala);
+					bala.relocate(dragon.getLayoutX()+35, dragon.getLayoutY()+10);
+					gamePane.getChildren().add(bala);
+					disparoPresionado = true;
+					balaExiste = true;
 				}
 			
 			}	
@@ -99,6 +109,8 @@ public class ViewManagerJuego {
 					arribaPresionado=false;
 				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
 					abajoPresionado=false;
+				}else if (event.getCode() == KeyCode.SPACE){
+					disparoPresionado = false;
 				}
 			
 			}	
@@ -204,8 +216,10 @@ public class ViewManagerJuego {
 				moverEnemigos();
 				enemigosPasaron();
 				moverDragon();
+				moverBala();
 				enemigosTocaronJugador();
 			}
+
 	
 		};
 		gameTimer.start();
@@ -240,6 +254,18 @@ public class ViewManagerJuego {
 		
 		
 		
+		
+	}
+	
+	private void moverBala() {
+		if (balaExiste) {
+			if(bala.getLayoutX() > (ancho-10)) {
+				balaExiste = false;
+				gamePane.getChildren().remove(bala);
+			}
+			bala.setLayoutX(bala.getLayoutX()+5);
+			
+		}
 		
 	}
 	
