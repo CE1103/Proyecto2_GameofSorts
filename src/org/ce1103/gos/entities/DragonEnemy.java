@@ -2,6 +2,8 @@ package org.ce1103.gos.entities;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.ce1103.gos.util.Node;
+
 import javafx.scene.image.ImageView;
 
 public class DragonEnemy {
@@ -12,8 +14,9 @@ public class DragonEnemy {
 	private int resistance;
 	private DragonEnemy father;
 	public boolean alive;
+	public final int radiusEnemy = 12;
 	
-	public static ImageView edragon;
+	public ImageView eDragon;
 	
 	public DragonEnemy(int rechargeSpeed, int resistance) {
 		setDragonName();
@@ -21,11 +24,9 @@ public class DragonEnemy {
 		this.rechargeSpeed = rechargeSpeed;
 		this.resistance = resistance;
 		
-		edragon = new ImageView("org/ce1103/gos/view/recursosGraficos/bat.png");
-		edragon.setLayoutX(100);
-		edragon.setLayoutY(10);
-		edragon.setFitHeight(40);
-		edragon.setFitWidth(40);
+		eDragon = new ImageView("org/ce1103/gos/view/graphicResources/bat.png");
+		eDragon.setFitHeight(20);
+		eDragon.setFitWidth(20);
 	}
 	
 	public void setDragonName() {
@@ -37,6 +38,7 @@ public class DragonEnemy {
 	public String getName() {
 		return name;
 	}
+	
 	
 	public void setName(String name) {
 		this.name = name;

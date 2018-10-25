@@ -2,12 +2,15 @@ package org.ce1103.gos.entities;
 
 import org.ce1103.gos.view.GameViewManager;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 
 public class Player {
 	
 	public static ImageView dragon;
 	public static ImageView bullet;
+	public static final int radiusBullet = 7;
+	public static final int radiusPlayer = 20;
 	
 	public static boolean upPressed;
 	public static boolean downPressed;
@@ -30,6 +33,8 @@ public class Player {
 	public static void shooter() {
 		bullet = new ImageView(Player.BulletRoot);
 		bullet.relocate(dragon.getLayoutX()+35, dragon.getLayoutY()+10);
+		bullet.setFitHeight(14);
+		bullet.setFitWidth(14);
 		shootPressed = true;
 		bulletExists = true;
 	}
@@ -65,10 +70,10 @@ public class Player {
 				bulletExists = false;
 				GameViewManager.gamePane.getChildren().remove(bullet);
 			}
-			bullet.setLayoutX(bullet.getLayoutX()+5);
+			bullet.setLayoutX(bullet.getLayoutX()+10);
 			
 		}
 	}
-		
-
 }
+	
+

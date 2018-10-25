@@ -23,8 +23,8 @@ public class KeyListeners {
 				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
 					Player.downPressed = true;
 				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists){
-					Player.bullet = new ImageView(Player.BulletRoot);
 					
+					Player.bullet = new ImageView(Player.BulletRoot);
 					Player.bullet.relocate(Player.dragon.getLayoutX()+35, Player.dragon.getLayoutY()+10);
 					GameViewManager.gamePane.getChildren().add(Player.bullet);
 					Player.shootPressed = false;
