@@ -6,11 +6,29 @@ en Computadores_. GoS, de ahora en adelante, es un juego side scroller. El jugad
 ## Pre Requisitos. 
 
 ```
+Java 1.8.0_181 o superior
+JavaFX Api 8.0.181 o superior
+logback-classic-1.1.7
+slf3j-api-1.7.12
+logback-core-1.1.7
 ```
 
 ## Instalación.
 
+Prerequisitos: Debe tener instalado [Git](https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Instalaci%C3%B3n-de-Git) en su consola.
 
+1. En GitHub, vaya a la página principal del [repositorio del Proyecto](https://github.com/CE1103/Proyecto2_GameofSorts).
+2. Debajo del nombre del repositorio, haga clic en Clonar o descargar.
+3. En la sección Clonar con HTTPs, haga clic para copiar la URL de clonación del repositorio.
+4. Abre Git Bash.
+5. Cambie el directorio de trabajo actual a la ubicación donde desea que se realice el directorio clonado.
+6. Escriba 'git clone', y luego pegue la URL que copió en el Paso 2.
+
+
+    ```$ git clone https://github.com/CE1103/Proyecto2_GameofSorts.git```
+
+
+7. Presione Enter. Se creará su clon local para [Proyecto2_GameofSorts](https://github.com/CE1103/Proyecto2_GameofSorts).
 ## Autores.
 
 * **Angelo Ortiz** - *Desarrollador* - [angelortizv](https://github.com/angelortizv)
