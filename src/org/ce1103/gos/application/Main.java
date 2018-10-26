@@ -5,8 +5,8 @@ import javafx.stage.Stage;
 import org.ce1103.gos.view.ViewManager;
 
 public class Main extends Application {
-	@Override
 	
+	@Override
 	public void start(Stage primaryStage) {
 		try {
 			ViewManager manager = new ViewManager();
@@ -17,10 +17,7 @@ public class Main extends Application {
 		}
 	}
 	
-	
 	public static void main(String[] args) {
 		launch(args);
-		
-
 	}
 }

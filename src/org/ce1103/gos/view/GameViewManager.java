@@ -9,6 +9,7 @@ import org.ce1103.gos.util.KeyListeners;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -25,6 +26,11 @@ public class GameViewManager {
 	private AnimationTimer gameTimer;	
 	
 	Random generateRandomPos;
+	
+
+	private int playerLifes;
+	ImageView[] playerLifesImages;
+	
 	
 	public GameViewManager() {
 		this.startGameStage();
@@ -47,6 +53,10 @@ public class GameViewManager {
 		createGameLoop();
 		gameStage.show();
 	}
+	
+	
+	
+	
 	
 	private void createGameLoop() {
 		gameTimer = new AnimationTimer() {
