@@ -2,18 +2,30 @@ package org.ce1103.gos.entities;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.ce1103.gos.util.DragonNode;
+
 import javafx.scene.image.ImageView;
 
 public class DragonEnemy {
 	
 	private String name;
 	private int rechargeSpeed;
+	private double currentShootCharge;
+	private double rechargeRandomMovement;
+	private double currentRandomMovementCharge;
 	private int age;
 	private int resistance;
 	private DragonEnemy father;
 	public boolean alive;
+	public final int radiusEnemy = 12;
 	
-	public static ImageView edragon;
+	public ImageView eDragon;
+	
+	public ImageView enemyFullOfHealth = new ImageView("org/ce1103/gos/view/graphicResources/EnemyFullOfHealth1.png");
+	public ImageView enemyDamaged = new ImageView("org/ce1103/gos/view/graphicResources/EnemyDamaged1.png");
+	public ImageView enemyVeryDamaged = new ImageView("org/ce1103/gos/view/graphicResources/EnemyVeryDamaged1.png");
+
+
 	
 	public DragonEnemy(int rechargeSpeed, int resistance) {
 		setDragonName();
@@ -21,12 +33,25 @@ public class DragonEnemy {
 		this.rechargeSpeed = rechargeSpeed;
 		this.resistance = resistance;
 		
-		edragon = new ImageView("org/ce1103/gos/view/recursosGraficos/bat.png");
-		edragon.setLayoutX(100);
-		edragon.setLayoutY(10);
-		edragon.setFitHeight(40);
-		edragon.setFitWidth(40);
+		if(this.resistance==3) {
+			eDragon = enemyFullOfHealth;
+		}else if(this.resistance==2) {
+			eDragon = enemyDamaged;
+		}else {
+			eDragon = enemyVeryDamaged;
+
+		}
+		
+		
+		eDragon.setFitHeight(25);
+		eDragon.setFitWidth(25);
 	}
+	
+	
+	
+	
+	
+	
 	
 	public void setDragonName() {
 		String[] randomDragonName = new String[] {"Angelo", "Jonathan", "Ivan", "Oscar", "Agustin"};
@@ -37,6 +62,7 @@ public class DragonEnemy {
 	public String getName() {
 		return name;
 	}
+	
 	
 	public void setName(String name) {
 		this.name = name;
@@ -49,6 +75,16 @@ public class DragonEnemy {
 	public void setRechargeSpeed(int rechargeSpeed) {
 		this.rechargeSpeed = rechargeSpeed;
 	}
+	
+	public double getCurrentShootCharge() {
+		return currentShootCharge;
+	}
+	
+	public void setCurrentShootCharge(double d) {
+		this.currentShootCharge = d;
+	}
+	
+	
 	
 	public int getAge() {
 		return age;

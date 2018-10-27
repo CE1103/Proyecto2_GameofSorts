@@ -12,6 +12,8 @@ public class Main extends Application {
 			ViewManager manager = new ViewManager();
 			primaryStage = manager.getMainStage();
 			primaryStage.show();
+
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

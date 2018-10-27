@@ -14,7 +14,21 @@ public class KeyListeners {
 		GameViewManager.gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			
 			public void handle(KeyEvent event) {
-				if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
+				if(event.getCode()== KeyCode.P) {
+					if(GameViewManager.isPaused) {
+						GameViewManager.gameTimer.start();
+						MusicPlayer.pauseSoundPlayer.stop();
+						MusicPlayer.pauseSoundPlayer.play();
+						MusicPlayer.backgroundMusicPlayer.setVolume(0.8);
+						GameViewManager.isPaused=false;
+					}else {
+						GameViewManager.gameTimer.stop();
+						MusicPlayer.pauseSoundPlayer.stop();
+						MusicPlayer.pauseSoundPlayer.play();
+						MusicPlayer.backgroundMusicPlayer.setVolume(0.2);
+						GameViewManager.isPaused=true;
+					}
+				}if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
 					Player.leftPressed = true;
 				}else if(event.getCode()== KeyCode.RIGHT || event.getCode()== KeyCode.D) {
 					Player.rightPressed = true;
@@ -22,13 +36,17 @@ public class KeyListeners {
 					Player.upPressed = true;
 				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
 					Player.downPressed = true;
-				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists){
-					Player.bullet = new ImageView(Player.BulletRoot);
+				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists && !GameViewManager.isPaused){
 					
-					Player.bullet.relocate(Player.dragon.getLayoutX()+35, Player.dragon.getLayoutY()+10);
+					Player.bullet = new ImageView(Player.BulletRoot);
+					Player.bullet.relocate(Player.griffin.getLayoutX()+35, Player.griffin.getLayoutY()+25);
 					GameViewManager.gamePane.getChildren().add(Player.bullet);
 					Player.shootPressed = false;
 					Player.bulletExists = true;
+					MusicPlayer.shootSoundPlayer.stop();
+					MusicPlayer.shootSoundPlayer.play();
+					MusicPlayer.shootSoundPlayer.setVolume(0.2);
+
 				}
 			}
 		});

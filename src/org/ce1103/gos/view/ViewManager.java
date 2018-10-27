@@ -57,11 +57,11 @@ public class ViewManager {
 	}
 	
 	
-	private void mostrarSubVentana(NestedWindow subVentana) {
+	private void showNestedWindow(NestedWindow nestedWindow) {
 		if(activeNestedWin!=null) {
 		}
-		subVentana.moveNestedWindow();
-		activeNestedWin = subVentana;
+		nestedWindow.moveNestedWindow();
+		activeNestedWin = nestedWindow;
 	}
 	
 
@@ -135,7 +135,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-				mostrarSubVentana(nestedWinHelp);
+				showNestedWindow(nestedWinHelp);
 			}
 				
 		});
@@ -149,7 +149,7 @@ public class ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-				mostrarSubVentana(nestedWinCredits);
+				showNestedWindow(nestedWinCredits);
 			}
 				
 		});
