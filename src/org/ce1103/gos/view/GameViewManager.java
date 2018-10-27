@@ -9,6 +9,8 @@ import org.ce1103.gos.entities.DragonEnemy;
 import org.ce1103.gos.entities.Player;
 import org.ce1103.gos.util.List;
 import org.ce1103.gos.util.Node;
+import org.ce1103.gos.util.BinaryTree;
+import org.ce1103.gos.util.BinaryTreeNode;
 import org.ce1103.gos.util.KeyListeners;
 
 import javafx.animation.AnimationTimer;
@@ -22,7 +24,7 @@ public class GameViewManager {
 	public static AnchorPane gamePane;
 	public static Scene gameScene;
 	private Stage gameStage;
-	private List dragonList = new List();
+	private BinaryTree dragonList = new BinaryTree();
 
 	private static final Dimension displaySettings = Toolkit.getDefaultToolkit().getScreenSize();
 	public static final int width = (int)displaySettings.getWidth();
@@ -62,22 +64,45 @@ public class GameViewManager {
 				DragonEnemy d1 = new DragonEnemy(ThreadLocalRandom.current().nextInt(1, 101),ThreadLocalRandom.current().nextInt(1, 4));
 				d1.eDragon.setLayoutX(875 + (i*50));
 				d1.eDragon.setLayoutY(j*60);
-				dragonList.addDragon(d1);
+				dragonList.addNode(d1);
 				gamePane.getChildren().add(d1.eDragon);
-
-
 			}
 		}
 	}
 
-	public void moveEnemies() {
-		Node dL = dragonList.firstNode;
-		while (dL != null) {
+	public void moveEnemies(BinaryTreeNode dragon) {
 
-			dL.dragon.eDragon.setLayoutX(dL.dragon.eDragon.getLayoutX() - 0.1);
-			dL = dL.next;
+		if(dragon != null) {
+			moveEnemies(dragon.getLeft());
+			dragon.getDragon().eDragon.setLayoutX(dragon.getDragon().eDragon.getLayoutX() - 0.1);
+			moveEnemies(dragon.getRight());
+		}
 
-		}	
+	}
+	
+	public void binaryTree(BinaryTreeNode dragon, BinaryTreeNode parent, int distance) {
+		if(dragon != null) {
+			if(parent == null) {
+				dragon.getDragon().eDragon.setLayoutX(1000);
+				dragon.getDragon().eDragon.setLayoutY(60);
+			}
+			moveBinaryTree(dragon, parent,distance);
+			binaryTree(dragon.getLeft(), dragon, distance-20);
+			binaryTree(dragon.getRight(), dragon, distance-20);
+		}
+		
+	}
+	
+	public void moveBinaryTree(BinaryTreeNode dragon, BinaryTreeNode parent,int distance) {
+		if(parent != null) {
+			if(parent.getLeft() == dragon) {
+				dragon.getDragon().eDragon.setLayoutX(parent.getDragon().eDragon.getLayoutX() - distance);
+				dragon.getDragon().eDragon.setLayoutY(parent.getDragon().eDragon.getLayoutY() + distance);
+			}else if(parent.getRight() == dragon) {
+				dragon.getDragon().eDragon.setLayoutX(parent.getDragon().eDragon.getLayoutX() + distance);
+				dragon.getDragon().eDragon.setLayoutY(parent.getDragon().eDragon.getLayoutY() + distance);
+			}
+		}
 	}
 
 
@@ -86,9 +111,10 @@ public class GameViewManager {
 
 			public void handle(long now) {
 				Player.moveDragon();
-				Player.moveBullet();	
-				moveEnemies();
-				collisionEnemies();
+				Player.moveBullet();
+				binaryTree(dragonList.getRoot(),  null, 250);
+				moveEnemies(dragonList.getRoot());
+				collisionEnemies(dragonList.getRoot());
 			}
 
 		};
@@ -101,33 +127,38 @@ public class GameViewManager {
 
 	}
 
-	
 
-	private void collisionEnemies() {
-		Node dL = dragonList.firstNode;
-		while (dL != null) {
 
-			if(dL.dragon.radiusEnemy + Player.radiusPlayer > getDistance(Player.dragon.getLayoutX() + 40, dL.dragon.eDragon.getLayoutX() + 25,
-					Player.dragon.getLayoutY() + 40, dL.dragon.eDragon.getLayoutY() + 25)) {
-				gamePane.getChildren().remove(dL.dragon.eDragon);
-				dragonList.removeNode(dL.dragon);
-				System.out.println("colision");
-			}
-			if(Player.bulletExists){
-				if(dL.dragon.radiusEnemy + Player.radiusBullet > getDistance(Player.bullet.getLayoutX() + 40, dL.dragon.eDragon.getLayoutX() + 25,
-						Player.bullet.getLayoutY() + 20, dL.dragon.eDragon.getLayoutY() + 25)) {
-					gamePane.getChildren().remove(Player.bullet);
-					Player.bulletExists = false;
-					gamePane.getChildren().remove(dL.dragon.eDragon);
-					dragonList.removeNode(dL.dragon);
-				}
-			}
+	private void collisionEnemies(BinaryTreeNode dragon) {
 
-			dL = dL.next;
+		if(dragon != null) {
+			collisionEnemies(dragon.getLeft());
+			collision(dragon);
+			collisionEnemies(dragon.getRight());
+		}
 
 		}	
-	}
+	
+	public void collision(BinaryTreeNode dragon) {
+		if(dragon.getDragon().radiusEnemy + Player.radiusPlayer > getDistance(Player.dragon.getLayoutX() + 40, dragon.getDragon().eDragon.getLayoutX() + 25,
+				Player.dragon.getLayoutY() + 40, dragon.getDragon().eDragon.getLayoutY() + 25)) {
+			gamePane.getChildren().remove(dragon.getDragon().eDragon);
+			dragonList.deleteNode(dragon.getDragon().getAge());	
 
+		}
+		if(Player.bulletExists){
+			if(dragon.getDragon().radiusEnemy + Player.radiusBullet > getDistance(Player.bullet.getLayoutX() + 40, dragon.getDragon().eDragon.getLayoutX() + 25,
+					Player.bullet.getLayoutY() + 20, dragon.getDragon().eDragon.getLayoutY() + 25)) {
+				gamePane.getChildren().remove(Player.bullet);
+				Player.bulletExists = false;
+				dragon.getDragon().setResistance(dragon.getDragon().getResistance()-1);
+				if(dragon.getDragon().getResistance() == 0) {
+					gamePane.getChildren().remove(dragon.getDragon().eDragon);
+					dragonList.deleteNode(dragon.getDragon().getAge());
+				}
+			}
+		}
+	}
 
 }
 
