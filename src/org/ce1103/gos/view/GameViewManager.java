@@ -10,6 +10,7 @@ import org.ce1103.gos.entities.Player;
 import org.ce1103.gos.util.BinaryTree;
 import org.ce1103.gos.util.BinaryTreeNode;
 import org.ce1103.gos.util.KeyListeners;
+import org.ce1103.gos.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ public class GameViewManager {
 	public static Scene gameScene;
 	private Stage gameStage;
 	private BinaryTree dragonList = new BinaryTree();
+	private List dragonLinkedList = new List();
 
 	private static final Dimension displaySettings = Toolkit.getDefaultToolkit().getScreenSize();
 	public static final int width = (int) displaySettings.getWidth();
@@ -61,6 +63,7 @@ public class GameViewManager {
 				DragonEnemy d1 = new DragonEnemy(ThreadLocalRandom.current().nextInt(1, 101),
 						ThreadLocalRandom.current().nextInt(1, 4));
 				dragonList.addNode(d1);
+				dragonLinkedList.addDragon(d1.getAge());
 				gamePane.getChildren().add(d1.eDragon);
 			}
 		}
@@ -148,6 +151,7 @@ public class GameViewManager {
 				dragon.getDragon().eDragon.getLayoutY() + 25)) {
 			gamePane.getChildren().remove(dragon.getDragon().eDragon);
 			dragonList.deleteNode(dragon.getDragon().getAge());
+			dragonLinkedList.removeNode(dragon.getDragon().getAge());
 
 		}
 		if (Player.bulletExists) {
@@ -160,6 +164,7 @@ public class GameViewManager {
 				if (dragon.getDragon().getResistance() == 0) {
 					gamePane.getChildren().remove(dragon.getDragon().eDragon);
 					dragonList.deleteNode(dragon.getDragon().getAge());
+					dragonLinkedList.removeNode(dragon.getDragon().getAge());
 				}
 			}
 		}

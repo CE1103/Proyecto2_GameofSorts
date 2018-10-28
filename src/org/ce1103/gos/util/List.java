@@ -1,16 +1,14 @@
 package org.ce1103.gos.util;
 
-import org.ce1103.gos.entities.DragonEnemy;
-
 public class List {
 
 	public Node firstNode;
 	public int nodes;
 
 
-	public void addDragon(DragonEnemy dragon) {
+	public void addDragon(int dragonAge) {
 
-		Node newPort = new Node(dragon);
+		Node newPort = new Node(dragonAge);
 		newPort.next = firstNode;
 		firstNode = newPort;
 		nodes++;
@@ -31,12 +29,12 @@ public class List {
 
 	}
 
-	public Node removeNode(DragonEnemy dragon) {
+	public Node removeNode(int dragonAge) {
 
 		Node current = firstNode;
 		Node previous = firstNode;
 
-		while(current.dragon != dragon) {
+		while(current.dragonAge != dragonAge) {
 
 			if(current.next == null) {
 

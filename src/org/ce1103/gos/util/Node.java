@@ -1,21 +1,20 @@
 package org.ce1103.gos.util;
 
-import org.ce1103.gos.entities.DragonEnemy;
 
 public class Node {
 
 	
-	public DragonEnemy dragon;
+	public int dragonAge;
 	public Node next;
 	
 	
-	public Node(DragonEnemy dragon) {
-		this.dragon = dragon;
+	public Node(int dragonAge) {
+		this.dragonAge = dragonAge;
 	}
 	
 	public void display() {
 		
-		System.out.println(dragon.getName() + ".");
+		System.out.println(dragonAge + ".");
 		
 	}
 
