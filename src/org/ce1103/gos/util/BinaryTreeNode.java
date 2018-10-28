@@ -45,6 +45,6 @@ public class BinaryTreeNode {
 		this.dragon = dragon;
 		this.left = left;
 		this.right = right;
-
+		this.height = 0;
 	}
 }

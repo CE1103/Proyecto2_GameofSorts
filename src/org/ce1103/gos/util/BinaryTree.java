@@ -94,63 +94,12 @@ public class BinaryTree {
 			}  
 		}  
 
-		if (currentNode == null)  
+		if (currentNode == null) 	
 			return currentNode;  
 
 		updatehight(currentNode);
-		
-		int balance = currentNode.balanceFactor;  
-
-		if(currentNode.left != null) {
-			if (balance > 1 && currentNode.left.balanceFactor >= 0)  
-				return rightRotation(currentNode);  
-
-			if (balance > 1 && currentNode.left.balanceFactor < 0)  
-			{  
-				currentNode.left = leftRotation(currentNode.left);  
-				return rightRotation(currentNode);  
-			} 
-		}else if (currentNode.right != null) {
-			if (balance < -1 && currentNode.right.balanceFactor <= 0)  
-				return leftRotation(currentNode);  
-
-			if (balance < -1 && currentNode.right.balanceFactor > 0)  
-			{  
-				currentNode.right = rightRotation(currentNode.right);  
-				return leftRotation(currentNode);  
-			}  
-		}
-
-		
-
-		return currentNode;  
+		return balance(currentNode);
 	}  
-
-	public BinaryTreeNode getReplacementNode(BinaryTreeNode replacedNode) {
-
-		BinaryTreeNode replacementParent = replacedNode;
-		BinaryTreeNode replacement = replacedNode;
-
-		BinaryTreeNode currentNode = replacedNode.right;
-
-		while(currentNode != null) {
-
-			replacementParent = replacement;
-			replacement = currentNode;
-			currentNode = currentNode.left;
-
-		}
-
-		if(replacement != replacedNode.right) {
-
-			replacementParent.left = replacement.right;
-			replacement.right = replacedNode.right;
-
-		}
-
-		return replacement;
-
-	}
 
 
 	public BinaryTreeNode findMin(BinaryTreeNode node) {
