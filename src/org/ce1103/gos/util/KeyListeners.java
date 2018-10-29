@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
 import org.ce1103.gos.entities.Player;
 
 public class KeyListeners {
@@ -28,7 +29,7 @@ public class KeyListeners {
 						MusicPlayer.backgroundMusicPlayer.setVolume(0.2);
 						GameViewManager.isPaused=true;
 					}
-				}if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
+				}if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A ) {
 					Player.leftPressed = true;
 				}else if(event.getCode()== KeyCode.RIGHT || event.getCode()== KeyCode.D) {
 					Player.rightPressed = true;
@@ -55,7 +56,7 @@ public class KeyListeners {
 			
 			
 			public void handle(KeyEvent event) {
-				if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
+				if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A ) {
 					Player.leftPressed = false;
 				}else if(event.getCode()== KeyCode.RIGHT || event.getCode()== KeyCode.D) {
 					Player.rightPressed = false;

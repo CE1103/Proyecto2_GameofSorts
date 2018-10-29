@@ -13,6 +13,7 @@ import org.ce1103.gos.util.DragonList;
 import org.ce1103.gos.util.DragonNode;
 import org.ce1103.gos.util.KeyListeners;
 import org.ce1103.gos.util.MusicPlayer;
+import org.ce1103.gos.util.SerialCommArduino;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -65,6 +66,10 @@ public class GameViewManager {
 		gameScene = new Scene(gamePane, width, height);
 		gameStage = new Stage();
 		gameStage.setScene(gameScene);
+		
+		SerialCommArduino.detectPort();
+		String newValue = SerialCommArduino.portList.get(0);
+		SerialCommArduino.connectArduino(newValue);
 		
 	}
 
