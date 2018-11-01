@@ -1,22 +1,41 @@
 package org.ce1103.gos.entities;
 
-import org.ce1103.gos.view.GameViewManager;
+import java.util.concurrent.ThreadLocalRandom;
 
-import javafx.geometry.Rectangle2D;
+import org.ce1103.gos.view.GameViewManager;
 import javafx.scene.image.ImageView;
+
+
 
 public class Player {
 	
 	public static ImageView griffin;
 	public static ImageView bullet;
+	
 	public static int lifes;
-	public ImageView[] playerLifeImage;
-	public static final int radiusBullet = 7;
-	public static final int radiusPlayer = 20;
+	public static int shields;
+	public static int speed;
+	public static int bulletSpeed;
+	public static int bulletSize;
+	
+	public static int generalLevel;
+	public static int lifeLevel;
+	public static int speedLevel;
+	public static int bulletSpeedLevel;
+	public static int bulletSizeLevel;
+
+
+	
+	public static final int playerRadius = 20;
 	public static final int timeToChangeAnimation = 50;
+	public static final int timeToBlink = 40;
+	public static final int timeToShieldActive = 400;
+	public static double bulletRadius = bulletSize/5;
+	
 	public static double currentTimeToChangeAnimation;
-	
-	
+	public static double currentTimeToBlink;
+	public static double currentTimeToShieldActive;
+
 	public static boolean upPressed;
 	public static boolean downPressed;
 	public static boolean leftPressed;
@@ -24,83 +43,102 @@ public class Player {
 	public static boolean shootPressed;
 	
 	public static boolean bulletExists = false;
-	public static boolean obtainedDamage = false;
+	public static boolean shieldActive = false;
+	public static boolean damaged = false;
 	
-	public final static String BulletRoot = "org/ce1103/gos/view/graphicResources/PlayerBullet.png";
-	public final static ImageView GriffinStand = new ImageView("org/ce1103/gos/view/graphicResources/Player1.png");
-	public final static ImageView GriffinFlying = new ImageView("org/ce1103/gos/view/graphicResources/Player2.png");
+	public final static String bulletRoot = "org/ce1103/gos/view/graphicResources/PlayerBullet.png";
+	public final static ImageView griffinStandRoot = new ImageView("org/ce1103/gos/view/graphicResources/Player1.png");
+	public final static ImageView griffinFlyingRoot = new ImageView("org/ce1103/gos/view/graphicResources/Player2.png");
+	public final static ImageView griffinBlinkingRoot = new ImageView("org/ce1103/gos/view/graphicResources/Player3.png");
+	
 	
 	public static void createGriffin() {
-		griffin = GriffinStand;
-		currentTimeToChangeAnimation = 0;
-		griffin.setLayoutX(100);
-		griffin.setLayoutY(250);
-		griffin.setFitHeight(60);
-		griffin.setFitWidth(60);
-		lifes=5;
-	}
-	
-	public static void changeAnimation(double positionX, double positionY) {
-		if(griffin == GriffinStand) {
-			griffin = GriffinFlying;
-			griffin.setLayoutX(positionX);
-			griffin.setLayoutY(positionY);
-			griffin.setFitHeight(55);
-			griffin.setFitWidth(55);
-		}else{
-			griffin = GriffinStand;
-			griffin.setLayoutX(positionX);
-			griffin.setLayoutY(positionY);
-			griffin.setFitHeight(60);
-			griffin.setFitWidth(60);
-		}
+		Player.griffin = Player.griffinStandRoot;
+		Player.griffin.setLayoutX(100);
+		Player.griffin.setLayoutY(250);
+		Player.griffin.setFitWidth(60);
+		Player.griffin.setFitHeight(60);
+		
+		Player.lifes=5;
+		Player.shields=3;
+		Player.speed=5;
+		Player.bulletSpeed=8;
+		Player.bulletSize=25;
+		Player.generalLevel=1;
+		Player.lifeLevel=0;
+		Player.currentTimeToChangeAnimation = 0;
+		Player.currentTimeToBlink = 0;
 	}
 	
 	
-	public static void shooter() {
-		bullet = new ImageView(Player.BulletRoot);
-		bullet.relocate(griffin.getLayoutX()+35, griffin.getLayoutY()+25);
-		bullet.setFitHeight(14);
-		bullet.setFitWidth(14);
-		shootPressed = true;
-		bulletExists = true;
-	}
-	
-	public static void moveDragon() {
-		 
-		if((leftPressed && !rightPressed)) {
-			if(griffin.getLayoutX() > 0) {
-				griffin.setLayoutX(griffin.getLayoutX()-5);
+	public static void changeSpriteAnimation(double positionX, double positionY, String animationType) {
+		if(animationType.equals("Normal")) {
+			if(Player.griffin == Player.griffinStandRoot) {
+				Player.griffin = Player.griffinFlyingRoot;
+				Player.griffin.setFitWidth(55);
+				Player.griffin.setFitHeight(55);
+			}else{
+				Player.griffin = Player.griffinStandRoot;
+				Player.griffin.setFitWidth(60);
+				Player.griffin.setFitHeight(60);
 			}
-		}
-		if(rightPressed && !leftPressed) {
-			if(griffin.getLayoutX() < 800) {
-				griffin.setLayoutX(griffin.getLayoutX()+5);
-			}
-		}
-		if(downPressed && !upPressed) {
-			if(griffin.getLayoutY() < 705) {
-				griffin.setLayoutY(griffin.getLayoutY()+5);
-			}
-		}
-		if(upPressed && !downPressed) {
-			if(griffin.getLayoutY() > 0) {
-				griffin.setLayoutY(griffin.getLayoutY()-5);
-			}
+			Player.griffin.setLayoutX(positionX);
+			Player.griffin.setLayoutY(positionY);
 		}else {
+			if(Player.griffin == Player.griffinStandRoot || Player.griffin == Player.griffinFlyingRoot) {
+				Player.griffin = Player.griffinBlinkingRoot;
+			}else{
+				int randomAnimationImage = ThreadLocalRandom.current().nextInt(1, 3);
+				if(randomAnimationImage==1) {
+					Player.griffin = Player.griffinStandRoot;
+				}else {
+					Player.griffin = Player.griffinFlyingRoot;
+				}
+			}
+			Player.griffin.setLayoutX(positionX);
+			Player.griffin.setLayoutY(positionY);
+		}
+	}
+	
+
+	public static void moveDragonAnimation() {
+		if((Player.leftPressed && !Player.rightPressed)) {
+			if(Player.griffin.getLayoutX() > 0) {
+				Player.griffin.setLayoutX(Player.griffin.getLayoutX()-Player.speed);
+			}
+		}
+		
+		if(Player.rightPressed && !Player.leftPressed) {
+			if(Player.griffin.getLayoutX() < 800) {
+				Player.griffin.setLayoutX(Player.griffin.getLayoutX()+Player.speed);
+			}
+		}
+		
+		if(Player.downPressed && !Player.upPressed) {
+			if(Player.griffin.getLayoutY() < 705) {
+				Player.griffin.setLayoutY(Player.griffin.getLayoutY()+Player.speed);
+			}
+		}
+		
+		if(Player.upPressed && !Player.downPressed) {
+			if(Player.griffin.getLayoutY() > 0) {
+				Player.griffin.setLayoutY(Player.griffin.getLayoutY()-Player.speed);
+			}
 		}
 	}
 
-	public static void moveBullet() {
-		if (bulletExists) {
-			if(bullet.getLayoutX() > (GameViewManager.width-10)) {
-				bulletExists = false;
-				GameViewManager.gamePane.getChildren().remove(bullet);
+	
+	public static void movePlayerBulletAnimation() {
+		if (Player.bulletExists) {
+			Player.bullet.setFitWidth(bulletSize);
+			Player.bullet.setFitHeight(bulletSize/2);
+			if(Player.bullet.getLayoutX() > (GameViewManager.width-10)) {
+				Player.bulletExists = false;
+				GameViewManager.gamePane.getChildren().remove(Player.bullet);
 			}
-			bullet.setLayoutX(bullet.getLayoutX()+10);
+			Player.bullet.setLayoutX(Player.bullet.getLayoutX()+Player.bulletSpeed);
 			
 		}
 	}
-}
 	
-
+}

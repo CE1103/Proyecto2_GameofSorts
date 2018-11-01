@@ -14,7 +14,7 @@ public class KeyListeners {
 		GameViewManager.gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			
 			public void handle(KeyEvent event) {
-				if(event.getCode()== KeyCode.P) {
+				if(event.getCode()== KeyCode.P && !GameViewManager.choosePowerUpIsActive) {
 					if(GameViewManager.isPaused) {
 						GameViewManager.gameTimer.start();
 						MusicPlayer.pauseSoundPlayer.stop();
@@ -27,8 +27,12 @@ public class KeyListeners {
 						MusicPlayer.pauseSoundPlayer.play();
 						MusicPlayer.backgroundMusicPlayer.setVolume(0.2);
 						GameViewManager.isPaused=true;
+						
+						
 					}
-				}if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
+				}else if(event.getCode()== KeyCode.Z) {
+	
+				}else if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
 					Player.leftPressed = true;
 				}else if(event.getCode()== KeyCode.RIGHT || event.getCode()== KeyCode.D) {
 					Player.rightPressed = true;
@@ -36,9 +40,11 @@ public class KeyListeners {
 					Player.upPressed = true;
 				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
 					Player.downPressed = true;
-				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists && !GameViewManager.isPaused){
+				}else if(event.getCode()== KeyCode.L || event.getCode()== KeyCode.L) {
+					GameViewManager.bossAppearsAnimation();
+				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists && !GameViewManager.isPaused && !GameViewManager.choosePowerUpIsActive){
 					
-					Player.bullet = new ImageView(Player.BulletRoot);
+					Player.bullet = new ImageView(Player.bulletRoot);
 					Player.bullet.relocate(Player.griffin.getLayoutX()+35, Player.griffin.getLayoutY()+25);
 					GameViewManager.gamePane.getChildren().add(Player.bullet);
 					Player.shootPressed = false;
@@ -47,6 +53,9 @@ public class KeyListeners {
 					MusicPlayer.shootSoundPlayer.play();
 					MusicPlayer.shootSoundPlayer.setVolume(0.2);
 
+				}
+				if(!GameViewManager.choosePowerUpIsActive) {
+					GameViewManager.gamePane.getChildren().remove(GameViewManager.nestedWindowChoosePowerUp);
 				}
 			}
 		});

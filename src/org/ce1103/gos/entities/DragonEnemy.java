@@ -11,15 +11,13 @@ public class DragonEnemy {
 	private String name;
 	private int rechargeSpeed;
 	private double currentShootCharge;
-	private double rechargeRandomMovement;
-	private double currentRandomMovementCharge;
 	private int age;
 	private int resistance;
 	private DragonEnemy father;
 	public boolean alive;
 	public final int radiusEnemy = 12;
 	
-	public ImageView eDragon;
+	public ImageView enemyImage;
 	
 	public ImageView enemyFullOfHealth = new ImageView("org/ce1103/gos/view/graphicResources/EnemyFullOfHealth1.png");
 	public ImageView enemyDamaged = new ImageView("org/ce1103/gos/view/graphicResources/EnemyDamaged1.png");
@@ -34,17 +32,17 @@ public class DragonEnemy {
 		this.resistance = resistance;
 		
 		if(this.resistance==3) {
-			eDragon = enemyFullOfHealth;
+			enemyImage = enemyFullOfHealth;
 		}else if(this.resistance==2) {
-			eDragon = enemyDamaged;
+			enemyImage = enemyDamaged;
 		}else {
-			eDragon = enemyVeryDamaged;
+			enemyImage = enemyVeryDamaged;
 
 		}
 		
 		
-		eDragon.setFitHeight(25);
-		eDragon.setFitWidth(25);
+		enemyImage.setFitHeight(25);
+		enemyImage.setFitWidth(25);
 	}
 	
 	

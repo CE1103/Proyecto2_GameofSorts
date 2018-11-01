@@ -3,7 +3,6 @@ package org.ce1103.gos.principalwin;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.ce1103.gos.view.GameViewManager;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -13,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 
 
-public class Buttons extends Button{
+public class PowerUpButtons extends Button{
 	
 	private static final String rootFont = "org/ce1103/gos/agregados/recursosGraficos/fuente.ttf";
 	private static final String pressedButtonDisplay = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/principalwin/res/blue_button01.png');";
@@ -24,7 +23,7 @@ public class Buttons extends Button{
 	private static final String shieldPowerUpDisplay = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/view/graphicResources/PowerUpShield.png');";
 	private static final String superFlamePowerUpDisplay = "-fx-background-color: transparent; -fx-background-image: url('org/ce1103/gos/view/graphicResources/PowerUpSuperFlame.png');";
 	
-	public Buttons(String text, double posX, double posY, double width, double height, String action) {
+	public PowerUpButtons(String text, double posX, double posY, double width, double height, String action) {
 		this.setText(text);
 		this.setButtonFont();
 		this.setPrefWidth(width);
@@ -60,13 +59,15 @@ public class Buttons extends Button{
 
 	
 	private void setPressedButtonDisplay() {
-		this.setPrefHeight(100);
+		this.setPrefHeight(55);
+		this.setLayoutY(this.getLayoutY()+10);
 
 	}
 
 	
 	private void setBotonSinPresionarDisplay() {
-		this.setPrefHeight(100);
+		this.setPrefHeight(60);
+		this.setLayoutY(this.getLayoutY()-10);
 
 	}
 
@@ -94,10 +95,7 @@ public class Buttons extends Button{
 			@Override
 			public void handle(MouseEvent evento) {
 				setEffect(new DropShadow());
-				//GameViewManager.gamePane.getChildren().remove(GameViewManager.nestedWindowPowerUpInformation);
-				//GameViewManager.gamePane.getChildren().add(GameViewManager.nestedWindowPowerUpInformation);
-				//GameViewManager.nestedWindowPowerUpInformation.moveNestedWindow();
-				//GameViewManager.nestedWindowPowerUpInformation.setHidden(false);
+				
 			}
 		});
 		
@@ -105,8 +103,6 @@ public class Buttons extends Button{
 			@Override
 			public void handle(MouseEvent evento) {
 				setEffect(null);
-				//GameViewManager.nestedWindowPowerUpInformation.moveNestedWindow();
-				//GameViewManager.nestedWindowPowerUpInformation.setHidden(true);
 			}
 		});
 		

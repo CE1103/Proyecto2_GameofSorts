@@ -10,16 +10,16 @@ public class EnemyBullet {
 	private int angle;
 	public final double radiusBullet = 5;
 
-	public ImageView eBullet;
+	public ImageView bulletImage;
 	
 	public EnemyBullet(double startingX, double startingY, int angle) {
 		this.startingX = startingX;
 		this.startingY = startingY;
 		this.angle = angle;
 		
-		eBullet = new ImageView("org/ce1103/gos/view/graphicResources/EnemyBullet.png");
-		eBullet.setFitHeight(10);
-		eBullet.setFitWidth(10);
+		bulletImage = new ImageView("org/ce1103/gos/view/graphicResources/EnemyBullet.png");
+		bulletImage.setFitHeight(10);
+		bulletImage.setFitWidth(10);
 		
 	}
 
