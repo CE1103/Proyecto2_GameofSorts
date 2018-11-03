@@ -12,6 +12,8 @@ import org.ce1103.gos.principalwin.Buttons;
 import org.ce1103.gos.principalwin.LabelNestedWindow;
 import org.ce1103.gos.principalwin.NestedWindow;
 import org.ce1103.gos.principalwin.NestedWindowForPowerUp;
+import org.ce1103.gos.util.BinaryTree;
+import org.ce1103.gos.util.BinaryTreeNode;
 import org.ce1103.gos.util.BulletList;
 import org.ce1103.gos.util.BulletNode;
 import org.ce1103.gos.util.DragonList;
@@ -19,12 +21,14 @@ import org.ce1103.gos.util.DragonNode;
 import org.ce1103.gos.util.KeyListeners;
 import org.ce1103.gos.util.MusicPlayer;
 import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -32,7 +36,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 
 
@@ -40,28 +43,34 @@ import javafx.util.Duration;
 public class GameViewManager {
 
 	public static AnchorPane gamePane;
+	public static AnchorPane pausedGamePane;
 	public static Scene gameScene;
 	public static Stage menuStage;
 	public static Stage gameStage;
 	public static MusicPlayer musicPlayer;
 	public static AnimationTimer gameTimer;	
+	public static AnimationTimer pausedGameTimer;
 	
 	
 	public static boolean isPaused = false;
 	public static boolean choosePowerUpIsActive = false;
 	public static boolean bossActive = false;
+	public static boolean enemyKilled = false;
+
 	
 	
 	private DragonList dragonList = new DragonList();
 	private DragonList movementList = new DragonList();
 	private BulletList bulletList = new BulletList();
+	
+	private BinaryTree enemyTree = new BinaryTree();
 
 	
 	private static final Dimension displaySettings = Toolkit.getDefaultToolkit().getScreenSize();
 	public static final int width = (int)displaySettings.getWidth();
 	private static final int height = (int)displaySettings.getHeight();
 	public static final BackgroundImage gameBackground = new BackgroundImage(new Image("org/ce1103/gos/view/graphicResources/gameBackground.png", width, height, false, true),BackgroundRepeat.REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-	
+	public static ImageView enemyImage;
 
 	private ImageView[] playerLifeImage;
 	public static int points=0;
@@ -73,6 +82,10 @@ public class GameViewManager {
 	public static NestedWindow nestedWindowChoosePowerUp = new NestedWindow();
 
 	public static Boss boss;
+	
+
+	
+	
 	
 	public GameViewManager() {
 		this.startGameStage();
@@ -89,7 +102,6 @@ public class GameViewManager {
 
 	
 	public void createNewGame(Stage menuStage) {
-		System.out.println(height/2);
 		GameViewManager.menuStage = menuStage;
 		GameViewManager.menuStage.hide();
 
@@ -137,6 +149,7 @@ public class GameViewManager {
 				GameViewManager.gameTimer.stop();
 				GameViewManager.menuStage.show();
 				MusicPlayer.backgroundMusicPlayer.stop();
+				MusicPlayer.bossBackgroundMusicPlayer.stop();
 			}
 		
 			if(damageType.equals("Collision")) {
@@ -152,18 +165,66 @@ public class GameViewManager {
 	
 	
 	private void createEnemiesAnimation() {
+		NestedWindowForPowerUp info = new NestedWindowForPowerUp();
+		GameViewManager.gamePane.getChildren().add(info);
 		for(int column = 1; column<6; column++) {
 			for(int row = 0; row<10 ;row++) {
 				DragonEnemy enemy = new DragonEnemy(ThreadLocalRandom.current().nextInt(1, 101),ThreadLocalRandom.current().nextInt(1, 4));
 				enemy.enemyImage.setLayoutX(875 + (row*50));
-				enemy.enemyImage.setLayoutY(150 + (column*50));
-				dragonList.addDragon(enemy);
+				enemy.enemyImage.setLayoutY(BinaryTree.treeLevel*100 + (column*50));
 				movementList.addDragon(enemy);
-				GameViewManager.gamePane.getChildren().add(enemy.enemyImage);
+				enemyTree.addNode(enemy);
+				dragonList.addDragon(enemy);
 				GameViewManager.currentEnemies++;
+				GameViewManager.gamePane.getChildren().add(enemy.enemyImage);
+				
+				
+				enemy.enemyImage.setOnMouseEntered(new EventHandler<MouseEvent>() {
+					
+					@Override
+					public void handle(MouseEvent event) {
+						if(GameViewManager.isPaused) {
+							enemy.enemyImage.setEffect(new DropShadow());
+							info.moveNestedWindow();
+							LabelNestedWindow ageLabel = new LabelNestedWindow("Edad: " + enemy.getAge());
+							ageLabel.setLayoutX(0);
+							ageLabel.setLayoutY(-37);
+							info.getPane().getChildren().add(ageLabel);
+						
+							LabelNestedWindow resistanceLabel = new LabelNestedWindow("Resistencia: " + enemy.getResistance());
+							ageLabel.setLayoutX(0);
+							resistanceLabel.setLayoutY(10);
+							info.getPane().getChildren().add(resistanceLabel);
+							
+							LabelNestedWindow rechargeSpeedLabel = new LabelNestedWindow("Velocidad: " + enemy.getRechargeSpeed());
+							rechargeSpeedLabel.setLayoutX(130);
+							rechargeSpeedLabel.setLayoutY(-37);
+							info.getPane().getChildren().add(rechargeSpeedLabel);
+							
+							LabelNestedWindow nameLabel = new LabelNestedWindow("Nombre: " + enemy.getName());
+							nameLabel.setLayoutX(130);
+							nameLabel.setLayoutY(10);
+							info.getPane().getChildren().add(nameLabel);
+						}
+						
+					}
+					});
+					
+				enemy.enemyImage.setOnMouseExited(new EventHandler<MouseEvent>() {
+						@Override
+						public void handle(MouseEvent event) {
+							if(GameViewManager.isPaused) {
+								enemy.enemyImage.setEffect(null);
+								info.moveNestedWindow();
+							}
+						}
+					});
 			}
 		}
 	}
+	
+	
+	
 	
 	
 	private void createPointsContainerAnimation() {
@@ -172,13 +233,11 @@ public class GameViewManager {
 		pointsLabel.setLayoutY(5);
 		gamePane.getChildren().add(pointsLabel);
 		
-		if(GameViewManager.points%300==0 && GameViewManager.points>=300) {
+		if(GameViewManager.points%100==0 && GameViewManager.points>=100) {
 			this.createLevelUpAnimation();
 			Player.generalLevel++;
 		}
-		if(GameViewManager.currentEnemiesDefeated==GameViewManager.currentEnemies) {
-			this.bossAppearsAnimation();
-		}
+
 	}
 	
 	
@@ -279,11 +338,10 @@ public class GameViewManager {
 			
 			
 			
-			if(Player.shieldActive) {
-				Player.currentTimeToShieldActive = Player.currentTimeToShieldActive + 0.04;
-			}else {
-				enemyNode.dragon.setCurrentShootCharge(enemyNode.dragon.getCurrentShootCharge());
+			if(!Player.shieldActive) {
+				enemyNode.dragon.setCurrentShootCharge(enemyNode.dragon.getCurrentShootCharge()+0.05);
 			}
+			
 
 			
 			
@@ -311,6 +369,10 @@ public class GameViewManager {
 		
 		while (enemyNode != null) {
 			
+			if(Player.shieldActive) {
+				Player.currentTimeToShieldActive = Player.currentTimeToShieldActive + 0.04;
+			}
+			
 			if(GameViewManager.bossActive) {
 				if(boss.bossStand.getLayoutY()<800){
 					boss.bossStand.setLayoutY(boss.bossStand.getLayoutY()+0.06);
@@ -318,10 +380,10 @@ public class GameViewManager {
 					boss.bossStand.setLayoutY(boss.bossStand.getLayoutY()-1000);
 				}
 				
-				GameViewManager.boss.currentShootCharge+=0.035;
+				Boss.currentShootCharge+=0.05;
 
-				if(GameViewManager.boss.currentShootCharge>GameViewManager.boss.rechargeSpeed) {
-					GameViewManager.boss.currentShootCharge=0;
+				if(Boss.currentShootCharge>Boss.rechargeSpeed) {
+					Boss.currentShootCharge=0;
 					for(int i=0; i<9; i++) {
 					EnemyBullet bullet = new EnemyBullet(GameViewManager.boss.bossStand.getLayoutX(),GameViewManager.boss.bossStand.getLayoutY(),i-7);
 					bullet.bulletImage.setLayoutY(GameViewManager.boss.bossStand.getLayoutY()+180);
@@ -386,6 +448,7 @@ public class GameViewManager {
 	}
 
 
+	
 	private void collisionWithEnemyAnimation() {
 		DragonNode enemyNode = dragonList.firstNode;
 		
@@ -416,9 +479,13 @@ public class GameViewManager {
 					}else{
 						GameViewManager.gamePane.getChildren().remove(enemyNode.dragon.enemyImage);
 						this.dragonList.removeDragonNode(enemyNode.dragon);
+						this.enemyTree.deleteNode(enemyNode.dragon.getAge());
 						MusicPlayer.enemyKilledSoundPlayer.stop();
 						MusicPlayer.enemyKilledSoundPlayer.play();
-						this.currentEnemiesDefeated++;
+						GameViewManager.currentEnemiesDefeated++;
+						GameViewManager.gamePane.getChildren().remove(Player.bullet);
+						Player.bulletExists = false;
+						binaryTree(this.enemyTree.getRoot(),null,1000,0,this.dragonList.findNode(this.enemyTree.getRoot().getDragon().getAge()),null);
 					}
 					
 					GameViewManager.gamePane.getChildren().remove(Player.bullet);
@@ -428,16 +495,23 @@ public class GameViewManager {
 					
 				}
 				if(GameViewManager.bossActive) {
+					System.out.println("prueba");
 					if(250 + Player.bulletRadius > getDistance(Player.bullet.getLayoutX() + 40, boss.bossStand.getLayoutX() + 300, Player.bullet.getLayoutY() + 20, boss.bossStand.getLayoutY() + 300)) {
-						boss.bossLife--;
-						System.out.println(boss.bossLife);
+						Boss.bossLife--;
+						System.out.println(Boss.bossLife);
 						MusicPlayer.enemyKilledSoundPlayer.play();
 						GameViewManager.gamePane.getChildren().remove(Player.bullet);
 						Player.bulletExists = false;
 						
-						if(boss.bossLife==0) {
+						
+						if(Boss.bossLife==0) {
 							GameViewManager.gamePane.getChildren().remove(boss.bossStand);
 							GameViewManager.bossActive=false;
+							this.removeEnemyBulletAnimation();
+							MusicPlayer.bossBackgroundMusicPlayer.stop();
+							this.createEnemiesAnimation();
+							MusicPlayer.backgroundMusicPlayer.play();
+
 						}
 					}
 				}
@@ -445,6 +519,57 @@ public class GameViewManager {
 			enemyNode = enemyNode.next;
 		}
 	}
+	
+
+	
+	public void binaryTree(BinaryTreeNode dragon, BinaryTreeNode parent, int distance, int cont, DragonEnemy enemy, DragonEnemy imageParent) {
+		if (dragon != null) {
+			if (parent == null) {
+				enemy.enemyImage.setLayoutX(900);
+				enemy.enemyImage.setLayoutY(60);
+			}
+			cont++;
+
+			moveBinaryTree(dragon, parent, distance, cont,enemy,imageParent);
+			try {
+				binaryTree(dragon.getLeft(), dragon, distance, cont, dragonList.findNode(dragon.getLeft().getDragon().getAge()), enemy);
+			}catch(Exception e){
+				
+			}
+			try {
+				binaryTree(dragon.getRight(), dragon, distance, cont, dragonList.findNode(dragon.getRight().getDragon().getAge()), enemy);
+			}catch(Exception e) {
+
+			}
+		}	
+	}	
+
+
+
+	public void moveBinaryTree(BinaryTreeNode dragon, BinaryTreeNode parent, double distance, int cont, DragonEnemy enemy, DragonEnemy imageParent) {
+		if (cont >= 5)
+			distance = 2 * distance / (3 * (Math.pow(2, cont)));
+		if (cont > 2 && cont < 5)
+			distance = 2 * distance / (2 * (Math.pow(2, cont)));
+		if (cont <= 2)
+			distance = 2 * distance / ((Math.pow(2, cont) + Math.pow(2, cont - 1)));
+
+		if (parent != null) {
+			if (parent.getLeft() == dragon) {
+				enemy.enemyImage.setLayoutX(imageParent.enemyImage.getLayoutX() - (distance - (distance / 2)));
+				enemy.enemyImage.setLayoutY(imageParent.enemyImage.getLayoutY() + 120);
+			} else if (parent.getRight() == dragon) {
+				enemy.enemyImage.setLayoutX(imageParent.enemyImage.getLayoutX() + (distance - (distance / 2)));
+				enemy.enemyImage.setLayoutY(imageParent.enemyImage.getLayoutY() + 120);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	private void colissionWithEnemyBulletAnimation() {
@@ -470,6 +595,7 @@ public class GameViewManager {
 				this.dragonList.removeDragonNode(enemyNode.dragon);
 				this.obtainDamageAnimation("Escape");
 			}
+			
 			enemyNode = enemyNode.next;
 		}
 	}
@@ -486,12 +612,10 @@ public class GameViewManager {
 		boss.bossStand.setFitWidth(300);
 		GameViewManager.gamePane.getChildren().add(boss.bossStand);
 		
-		
-		
-		
 		bossActive=true;
 	}
-
+	
+	
 
 	private void createGameLoop() {
 		GameViewManager.gameTimer = new AnimationTimer() {
@@ -506,6 +630,12 @@ public class GameViewManager {
 				playerAnimation();
 			}
 		};
+		
+		GameViewManager.pausedGameTimer = new AnimationTimer() {
+			public void handle(long now) {
+			}
+		};
+		
 		GameViewManager.gameTimer.start();
 	}
 }

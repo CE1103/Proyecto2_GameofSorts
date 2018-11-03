@@ -17,12 +17,14 @@ public class KeyListeners {
 				if(event.getCode()== KeyCode.P && !GameViewManager.choosePowerUpIsActive) {
 					if(GameViewManager.isPaused) {
 						GameViewManager.gameTimer.start();
+						GameViewManager.pausedGameTimer.stop();
 						MusicPlayer.pauseSoundPlayer.stop();
 						MusicPlayer.pauseSoundPlayer.play();
 						MusicPlayer.backgroundMusicPlayer.setVolume(0.8);
 						GameViewManager.isPaused=false;
 					}else {
 						GameViewManager.gameTimer.stop();
+						GameViewManager.pausedGameTimer.start();
 						MusicPlayer.pauseSoundPlayer.stop();
 						MusicPlayer.pauseSoundPlayer.play();
 						MusicPlayer.backgroundMusicPlayer.setVolume(0.2);
@@ -40,7 +42,7 @@ public class KeyListeners {
 					Player.upPressed = true;
 				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
 					Player.downPressed = true;
-				}else if(event.getCode()== KeyCode.L || event.getCode()== KeyCode.L) {
+				}else if(event.getCode()== KeyCode.B) {
 					GameViewManager.bossAppearsAnimation();
 				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists && !GameViewManager.isPaused && !GameViewManager.choosePowerUpIsActive){
 					

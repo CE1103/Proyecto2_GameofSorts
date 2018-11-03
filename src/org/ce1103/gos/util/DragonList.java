@@ -3,6 +3,8 @@ package org.ce1103.gos.util;
 import org.ce1103.gos.entities.DragonEnemy;
 import org.ce1103.gos.entities.EnemyBullet;
 
+import javafx.scene.image.ImageView;
+
 public class DragonList {
 
 	public DragonNode firstNode;
@@ -64,4 +66,25 @@ public class DragonList {
 		nodes--;
 		return current;
 	}
-}
+	
+	
+	
+	public DragonEnemy findNode(int age) {
+		DragonNode PN = firstNode;
+		if(firstNode != null) {
+			
+			while (PN.dragon.getAge() != age) {
+				
+				if(PN.next == null) {
+					return null;
+					
+				}else {
+					PN = PN.next;
+				}
+			}		
+		}else {
+			
+		}
+		return PN.dragon;
+	}
+	}

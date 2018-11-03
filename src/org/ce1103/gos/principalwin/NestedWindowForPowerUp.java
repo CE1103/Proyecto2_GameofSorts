@@ -15,15 +15,14 @@ import javafx.util.Duration;
 
 public class NestedWindowForPowerUp extends SubScene{
 
-	private final static String rootFont = "org/ce1103/gos/principalwin/res/fuente.ttf";
-	private final static String rootBackgroundImage = "org/ce1103/gos/principalwin/res/backgroundNestWindowForPoweUp.png";
+	private final static String rootBackgroundImage = "org/ce1103/gos/principalwin/res/backgroundNestWindowForPowerUp.png";
 	private static final Dimension displaySettings = Toolkit.getDefaultToolkit().getScreenSize();
 	private static final int width = (int)displaySettings.getWidth();
 	private static final int height = (int)displaySettings.getHeight();
 	private boolean hidden;
 	
 	public NestedWindowForPowerUp() {
-		super(new AnchorPane(), 500, 100);
+		super(new AnchorPane(), 265, 100);
 
 		BackgroundImage backImage = new BackgroundImage(new Image(rootBackgroundImage,width*0.55,height*0.95,false,true)
 				,BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, null);

@@ -46,15 +46,12 @@ public class DragonEnemy {
 	}
 	
 	
-	
-	
-	
-	
-	
 	public void setDragonName() {
-		String[] randomDragonName = new String[] {"Angelo", "Jonathan", "Ivan", "Oscar", "Agustin"};
-		int num = (int) (Math.random() * randomDragonName.length-1);
-		setName(randomDragonName[num]);
+		String[] randomDragonName1 = new String[] {"Pa", "So", "Mu", "We", "Ki","Go","Ku"};
+		String[] randomDragonName2 = new String[] {"ly", "bu", "pi", "sa", "mo","de","xo"};
+		String[] randomDragonName3 = new String[] {"zu", "tu", "he", "ll", "na","ty","be"};
+		String[] randomDragonName4 = new String[] {" el destructor", " el innombrable", " el putaso", " el rompeortos", " el maleku"," el bribri"," el azteca"};
+		setName(randomDragonName1[ThreadLocalRandom.current().nextInt(0,6)]+randomDragonName2[ThreadLocalRandom.current().nextInt(0,6)]+randomDragonName3[ThreadLocalRandom.current().nextInt(0,6)]+randomDragonName4[ThreadLocalRandom.current().nextInt(0,6)]);
 	}
 	
 	public String getName() {
@@ -90,10 +87,10 @@ public class DragonEnemy {
 	
 	public void setAge() {
 		if(getFather() == null) {
-			int num = ThreadLocalRandom.current().nextInt(900, 1000 + 1);
+			int num = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
 			this.age = num;
 		}else {
-			int num = ThreadLocalRandom.current().nextInt(1, 890 + 1);
+			int num = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
 			this.age = num;
 		}
 	}
