@@ -2,7 +2,11 @@ package org.ce1103.gos.view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.xml.bind.JAXBException;
 
 import org.ce1103.gos.entities.Boss;
 import org.ce1103.gos.entities.DragonEnemy;
@@ -16,6 +20,7 @@ import org.ce1103.gos.util.BinaryTree;
 import org.ce1103.gos.util.BinaryTreeNode;
 import org.ce1103.gos.util.BulletList;
 import org.ce1103.gos.util.BulletNode;
+import org.ce1103.gos.util.Client;
 import org.ce1103.gos.util.DragonList;
 import org.ce1103.gos.util.DragonNode;
 import org.ce1103.gos.util.KeyListeners;
@@ -83,6 +88,12 @@ public class GameViewManager {
 
 	public static Boss boss;
 	
+	
+	public static String currentLinkedListToString;
+	
+	public static int sortCounter=1;
+	public static int sortingCounter=0;
+
 
 	
 	
@@ -222,9 +233,6 @@ public class GameViewManager {
 			}
 		}
 	}
-	
-	
-	
 	
 	
 	private void createPointsContainerAnimation() {
@@ -449,13 +457,11 @@ public class GameViewManager {
 
 
 	
-	private void collisionWithEnemyAnimation() {
+	private void collisionWithEnemyAnimation() throws IOException, JAXBException {
 		DragonNode enemyNode = dragonList.firstNode;
 		
 		while (enemyNode != null) {
 			if(enemyNode.dragon.radiusEnemy + Player.playerRadius > getDistance(Player.griffin.getLayoutX() + 40, enemyNode.dragon.enemyImage.getLayoutX() + 25, Player.griffin.getLayoutY() + 40, enemyNode.dragon.enemyImage.getLayoutY() + 25)  && !Player.shieldActive) {
-				GameViewManager.gamePane.getChildren().remove(enemyNode.dragon.enemyImage);
-				this.dragonList.removeDragonNode(enemyNode.dragon);
 				this.obtainDamageAnimation("Collision");
 			}
 			
@@ -486,6 +492,10 @@ public class GameViewManager {
 						GameViewManager.gamePane.getChildren().remove(Player.bullet);
 						Player.bulletExists = false;
 						binaryTree(this.enemyTree.getRoot(),null,1000,0,this.dragonList.findNode(this.enemyTree.getRoot().getDragon().getAge()),null);
+						
+						
+						linkedListToString(sortCounter);
+						sortCounter++;
 					}
 					
 					GameViewManager.gamePane.getChildren().remove(Player.bullet);
@@ -495,7 +505,6 @@ public class GameViewManager {
 					
 				}
 				if(GameViewManager.bossActive) {
-					System.out.println("prueba");
 					if(250 + Player.bulletRadius > getDistance(Player.bullet.getLayoutX() + 40, boss.bossStand.getLayoutX() + 300, Player.bullet.getLayoutY() + 20, boss.bossStand.getLayoutY() + 300)) {
 						Boss.bossLife--;
 						System.out.println(Boss.bossLife);
@@ -566,6 +575,36 @@ public class GameViewManager {
 	}
 	
 	
+	public void linkedListToString(int attribute) throws IOException, JAXBException {
+		String linkedListString = "[";
+		int temp = 1;
+		DragonNode enemyNode = dragonList.firstNode;
+		while (enemyNode != null) {
+			if(attribute%2==0) {
+				if(temp!=1) {
+				linkedListString = linkedListString + ", " + enemyNode.dragon.getRechargeSpeed();
+				}else {
+					linkedListString = linkedListString + enemyNode.dragon.getRechargeSpeed();
+				}
+			}else{
+				if (temp!=1) {
+				linkedListString = linkedListString + ", " + enemyNode.dragon.getAge();
+				}else {
+					linkedListString = linkedListString + enemyNode.dragon.getAge();
+				}
+			}
+			temp++;
+			enemyNode = enemyNode.next;
+		}
+		linkedListString = linkedListString + "]";
+		System.out.println(linkedListString);
+		if(sortingCounter==3) {
+			sortingCounter=0;
+		}
+		System.out.println(Client.clientSort(sortingCounter, linkedListString));
+		sortingCounter++;
+	}
+	
 	
 	
 	
@@ -624,7 +663,11 @@ public class GameViewManager {
 				Player.movePlayerBulletAnimation();
 				mainMovementAnimation();
 				checkIfEnemiesEscapeAnimation();
-				collisionWithEnemyAnimation();
+				try {
+					collisionWithEnemyAnimation();
+				} catch (IOException | JAXBException e) {
+					e.printStackTrace();
+				}
 				colissionWithEnemyBulletAnimation();
 				enemyBulletAnimation();
 				playerAnimation();
