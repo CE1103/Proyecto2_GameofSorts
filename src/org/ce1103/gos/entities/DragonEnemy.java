@@ -11,7 +11,7 @@ public class DragonEnemy {
 	private String name;
 	private int rechargeSpeed;
 	private double currentShootCharge;
-	private int age;
+	public int age;
 	private int resistance;
 	private DragonEnemy father;
 	public boolean alive;

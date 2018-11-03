@@ -25,6 +25,8 @@ import org.ce1103.gos.util.DragonList;
 import org.ce1103.gos.util.DragonNode;
 import org.ce1103.gos.util.KeyListeners;
 import org.ce1103.gos.util.MusicPlayer;
+import org.ce1103.gos.util.SerialCommArduino;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -93,6 +95,8 @@ public class GameViewManager {
 	
 	public static int sortCounter=1;
 	public static int sortingCounter=0;
+	
+	public static KeyListeners keyListeners;
 
 
 	
@@ -100,7 +104,7 @@ public class GameViewManager {
 	
 	public GameViewManager() {
 		this.startGameStage();
-		KeyListeners.createKeyListeners();
+		keyListeners.createKeyListeners();
 	}
 
 	
@@ -109,6 +113,23 @@ public class GameViewManager {
 		GameViewManager.gameScene = new Scene(gamePane, width, height);
 		GameViewManager.gameStage = new Stage();
 		GameViewManager.gameStage.setScene(gameScene);
+		SerialCommArduino.detectPort();
+		String newValue = SerialCommArduino.portList.get(0);
+		SerialCommArduino.connectArduino(newValue);
+	}
+	
+	public static void createBullet() {
+		if(SerialCommArduino.shootButton) {
+			Player.bullet = new ImageView(Player.bulletRoot);
+			Player.bullet.relocate(Player.griffin.getLayoutX()+35, Player.griffin.getLayoutY()+25);
+			GameViewManager.gamePane.getChildren().add(Player.bullet);
+			Player.shootPressed = false;
+			Player.bulletExists = true;
+			MusicPlayer.shootSoundPlayer.stop();
+			MusicPlayer.shootSoundPlayer.play();
+			MusicPlayer.shootSoundPlayer.setVolume(0.2);
+		}
+		
 	}
 
 	
@@ -607,10 +628,6 @@ public class GameViewManager {
 	
 	
 	
-	
-	
-	
-	
 	private void colissionWithEnemyBulletAnimation() {
 		BulletNode bulletNode = bulletList.firstNode;
 		
@@ -671,6 +688,9 @@ public class GameViewManager {
 				colissionWithEnemyBulletAnimation();
 				enemyBulletAnimation();
 				playerAnimation();
+				
+				
+//				createBullet();
 			}
 		};
 		

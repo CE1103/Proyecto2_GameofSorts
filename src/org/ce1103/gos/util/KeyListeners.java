@@ -2,6 +2,7 @@ package org.ce1103.gos.util;
 
 import org.ce1103.gos.view.GameViewManager;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -10,11 +11,13 @@ import org.ce1103.gos.entities.Player;
 
 public class KeyListeners {
 	
+	public static Event event1;
+	
 	public static void createKeyListeners() {
 		GameViewManager.gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			
-			public void handle(KeyEvent event) {
-				if(event.getCode()== KeyCode.P && !GameViewManager.choosePowerUpIsActive) {
+			public void handle(KeyEvent event1) {
+				if(event1.getCode()== KeyCode.P && !GameViewManager.choosePowerUpIsActive) {
 					if(GameViewManager.isPaused) {
 						GameViewManager.gameTimer.start();
 						GameViewManager.pausedGameTimer.stop();
@@ -32,19 +35,19 @@ public class KeyListeners {
 						
 						
 					}
-				}else if(event.getCode()== KeyCode.Z) {
+				}else if(event1.getCode()== KeyCode.Z) {
 	
-				}else if(event.getCode()== KeyCode.LEFT || event.getCode()== KeyCode.A) {
+				}else if(event1.getCode()== KeyCode.LEFT || event1.getCode()== KeyCode.A) {
 					Player.leftPressed = true;
-				}else if(event.getCode()== KeyCode.RIGHT || event.getCode()== KeyCode.D) {
+				}else if(event1.getCode()== KeyCode.RIGHT || event1.getCode()== KeyCode.D) {
 					Player.rightPressed = true;
-				}else if(event.getCode()== KeyCode.UP || event.getCode()== KeyCode.W) {
+				}else if(event1.getCode()== KeyCode.UP || event1.getCode()== KeyCode.W) {
 					Player.upPressed = true;
-				}else if(event.getCode()== KeyCode.DOWN || event.getCode()== KeyCode.S) {
+				}else if(event1.getCode()== KeyCode.DOWN || event1.getCode()== KeyCode.S) {
 					Player.downPressed = true;
-				}else if(event.getCode()== KeyCode.B) {
+				}else if(event1.getCode()== KeyCode.B) {
 					GameViewManager.bossAppearsAnimation();
-				}else if (event.getCode() == KeyCode.SPACE && !Player.bulletExists && !GameViewManager.isPaused && !GameViewManager.choosePowerUpIsActive){
+				}else if (event1.getCode() == KeyCode.SPACE && !Player.bulletExists && !GameViewManager.isPaused && !GameViewManager.choosePowerUpIsActive){
 					
 					Player.bullet = new ImageView(Player.bulletRoot);
 					Player.bullet.relocate(Player.griffin.getLayoutX()+35, Player.griffin.getLayoutY()+25);
@@ -80,6 +83,10 @@ public class KeyListeners {
 			
 			}	
 		});
+		
+	}
+	
+	public static void moveControl() {
 		
 	}
 }
